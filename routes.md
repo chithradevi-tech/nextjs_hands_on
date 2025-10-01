@@ -279,7 +279,7 @@ overriding layout metadata for matching properties.
 
 ---
 
-13. Navigation
+**13. Navigation**
 
 ```text
 import Link from "next/link";
@@ -296,3 +296,43 @@ export default function Home() {
 
 ```
 ---
+
+**14. Params and Search Params**
+
+For a given URL,
+
+- params is a promise that resolves to an object containing the dynamic route
+parameters (like id)
+
+- search params is a promise that resolves an object containing the query 
+parameters (like filtering and sorting)
+
+- while page.tsx has access to both params and searchparams, layout.tsx only
+has access to params
+
+---
+
+**15. Templates**
+
+Templates are similar to layouts in that they are also UI shared between multiple 
+pages in your app.
+
+Whenever a user navigates between routes sharing a template, you get a
+completely fresh start
+
+- a new template component instance is mounted
+
+- DOM elements are recreated
+
+- state is cleared
+
+- effects are re-synchronized
+
+create a template by exploring a default React Component from template.js 
+or template.jsx file
+
+Like layouts, templates need to accept a children prop to render the nested route
+segments
+
+---
+
