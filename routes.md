@@ -421,3 +421,32 @@ export default function GlobalError({ error, reset }) {
   );
 }
 ```
+---
+
+**18. Parallel routes**
+
+Parallel routing is an advanced routing mechanism that let us render
+multiple pages simultaneously within the same layout.
+
+- Parallel routes in Next.js are defined using a feature known as "slots"
+
+- slots helps organize content in a modular way
+
+- To create a slot, we use the folder '@folder' naming convention
+
+- Each defined slot automatically becomes a prop in its corresponding
+layout.tsx file
+
+---
+
+**19. Intercepting routes conventions**
+
+(.) to match segments on the same level
+
+(..) to match segments one level above
+
+(..)(..) to match segments two levels above
+
+(...) to match segments from the root app directory
+
+---
