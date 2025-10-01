@@ -1,4 +1,4 @@
-1. what is Next.js?
+**1. what is Next.js?**
 
 Next.js is a React framework for building full-stack, production-ready web applications.
 
@@ -6,7 +6,8 @@ Next.js is a React framework for building full-stack, production-ready web appli
 
     It provides additional built-in features that make development faster and easier.
 
-    Unlike plain React (where you install extra packages for routing, SSR, etc.), Next.js includes everything you need out of the box.
+    Unlike plain React (where you install extra packages for routing, SSR, etc.), 
+    Next.js includes everything you need out of the box.
 
     These features include routing, optimized rendering, data fetching, bundling, compiling and more
 
@@ -14,13 +15,15 @@ Next.js is a React framework for building full-stack, production-ready web appli
 
 ---
 
-2. why learn Next.js?
+**2. why learn Next.js?**
 
 Next.js simplifies the process of building production-ready applications.
 
-    - Simplified Routing → File-based routing, no need for external libraries like react-router-dom.
+    - Simplified Routing → File-based routing, no need for 
+    external libraries like react-router-dom.
 
-    - API Routes → Create backend endpoints directly inside your app without needing Express or another server.
+    - API Routes → Create backend endpoints directly inside your app 
+    without needing Express or another server.
 
     - Flexible Rendering → Supports multiple rendering strategies:
 
@@ -32,17 +35,22 @@ Next.js simplifies the process of building production-ready applications.
 
         - Incremental Static Regeneration (ISR)
 
-    - Data Fetching → Built-in functions (getStaticProps, getServerSideProps, getStaticPaths, and React Server Components) make fetching data simple and efficient.
+    - Data Fetching → Built-in functions 
+    (getStaticProps, getServerSideProps, getStaticPaths, 
+    and React Server Components) make fetching data simple and efficient.
 
-    - Styling Options → Supports CSS Modules, Tailwind CSS, Styled JSX, Sass, and other styling libraries.
+    - Styling Options → Supports CSS Modules, Tailwind CSS, 
+    Styled JSX, Sass, and other styling libraries.
 
-    - Performance Optimization → Automatic code-splitting, image optimization, caching, and fast refresh.
+    - Performance Optimization → Automatic code-splitting, 
+    image optimization, caching, and fast refresh.
 
-    - Seamless Dev & Prod Builds → Easy development environment with Hot Reloading, and optimized production builds with bundling, minification, and tree-shaking.
+    - Seamless Dev & Prod Builds → Easy development environment with Hot Reloading, 
+    and optimized production builds with bundling, minification, and tree-shaking.
 
 ---
 
-3. Prerequisites for Learning Next.js
+**3. Prerequisites for Learning Next.js**
 
 HTML
 
