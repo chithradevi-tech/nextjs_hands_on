@@ -188,5 +188,13 @@ A layout is a UI that is shared between multiple pages in your app.
 | Next.js automatic generation | ❌ Does not generate layouts automatically                 |
 | Nested layouts               | Can exist inside folders, but **root layout is required** |
 
+| URL                   | Layouts Applied                | Content Rendered                           |
+| --------------------- | ------------------------------ | ------------------------------------------ |
+| `/`                   | Root Layout                    | Header + Home page + Footer                |
+| `/dashboard`          | Root Layout → Dashboard Layout | Header + Sidebar + Dashboard Home + Footer |
+| `/dashboard/settings` | Root Layout → Dashboard Layout | Header + Sidebar + Settings Page + Footer  |
+| `/blog`               | Root Layout → Blog Layout      | Header + Blog Nav + Blog Home + Footer     |
+| `/blog/my-first-post` | Root Layout → Blog Layout      | Header + Blog Nav + Blog Post + Footer     |
 
----
+<img width="500" height="500" alt="Image" src="https://github.com/user-attachments/assets/0367736d-c50d-41b3-8232-448ec69b1f14" />
+
