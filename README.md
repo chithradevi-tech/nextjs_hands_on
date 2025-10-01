@@ -19,11 +19,9 @@ Next.js is a React framework for building full-stack, production-ready web appli
 
 Next.js simplifies the process of building production-ready applications.
 
-    - Simplified Routing → File-based routing, no need for 
-    external libraries like react-router-dom.
+    - Simplified Routing → File-based routing, no need for external libraries like react-router-dom.
 
-    - API Routes → Create backend endpoints directly inside your app 
-    without needing Express or another server.
+    - API Routes → Create backend endpoints directly inside your app without needing Express or another server.
 
     - Flexible Rendering → Supports multiple rendering strategies:
 
@@ -35,15 +33,12 @@ Next.js simplifies the process of building production-ready applications.
 
         - Incremental Static Regeneration (ISR)
 
-    - Data Fetching → Built-in functions 
-    (getStaticProps, getServerSideProps, getStaticPaths, 
+    - Data Fetching → Built-in functions (getStaticProps, getServerSideProps, getStaticPaths, 
     and React Server Components) make fetching data simple and efficient.
 
-    - Styling Options → Supports CSS Modules, Tailwind CSS, 
-    Styled JSX, Sass, and other styling libraries.
+    - Styling Options → Supports CSS Modules, Tailwind CSS, Styled JSX, Sass, and other styling libraries.
 
-    - Performance Optimization → Automatic code-splitting, 
-    image optimization, caching, and fast refresh.
+    - Performance Optimization → Automatic code-splitting, image optimization, caching, and fast refresh.
 
     - Seamless Dev & Prod Builds → Easy development environment with Hot Reloading, 
     and optimized production builds with bundling, minification, and tree-shaking.
