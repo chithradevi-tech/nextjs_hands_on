@@ -129,3 +129,27 @@ Separation of Concerns → UI, logic, and routing are well-structured.
 Performance → React’s Virtual DOM + Next.js optimizations.
 
 ---
+
+**7. what is latest version of next js?**
+
+The latest stable version of Next.js is v15.5.4
+
+**✅ Recommended Node.js Versions for Next.js (latest v15.x):**
+
+Node.js 18.17.0+ (LTS)
+
+Node.js 20.x (LTS)
+
+**Node.js 18.17 or later to run the latest Next.js smoothly.**
+
+---
+
+8. Create a New Next.js Project
+
+npx create-next-app@latest my-next-app
+
+cd my-next-app
+
+npm run dev
+
+<img width="807" height="991" alt="Image" src="https://github.com/user-attachments/assets/f38beade-a627-4aa2-8144-ad1a7d29e186" />
