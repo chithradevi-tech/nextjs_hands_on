@@ -1,6 +1,12 @@
 import Image from "next/image";
 
-export default function Blog() {
+export default async function Blog() {
+
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      resolve("international delay")
+    }, 2000)
+  })
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       Blog page

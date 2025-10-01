@@ -336,3 +336,88 @@ segments
 
 ---
 
+**16. loading.tsx**
+
+This file helps to create loading states that users see while waiting for content
+to load in a specific route segment
+
+The loading states appear instantly when navigating, letting users know that
+the application is responsive and actively loading content
+
+---
+
+**17. Error Handling**
+
+special files
+
+page.tsx
+
+layout.tsx
+
+template.tsx
+
+not-found.tsx
+
+loading.tsx
+
+error.tsx - error handling
+
+Error Handling in Next.js 15 (App Router)
+
+**1. error.js (Error Boundary per Route Segment)**
+
+If an error happens in a page, layout, or component inside a route segment, Next.js will render the closest error.js file.
+
+Acts like a React error boundary.
+
+Example:
+```text
+app/
+  dashboard/
+    page.js
+    error.js   <-- handles errors for /dashboard
+```
+
+```text
+'use client'; // required because it's interactive
+
+export default function Error({ error, reset }) {
+  return (
+    <div>
+      <h2>Something went wrong in Dashboard!</h2>
+      <p>{error.message}</p>
+      <button onClick={() => reset()}>Try Again</button>
+    </div>
+  );
+}
+```
+error → the error object
+
+reset() → reattempts to render the segment
+
+**2. global-error.js**
+
+Handles uncaught errors in the entire app (when no segment error.js exists higher up).
+
+Useful for global fallback UI.
+
+```text
+app/
+  global-error.js
+```
+
+```text
+'use client';
+
+export default function GlobalError({ error, reset }) {
+  return (
+    <html>
+      <body>
+        <h1>App Crashed!</h1>
+        <p>{error.message}</p>
+        <button onClick={() => reset()}>Reload</button>
+      </body>
+    </html>
+  );
+}
+```
