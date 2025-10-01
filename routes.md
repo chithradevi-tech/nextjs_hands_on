@@ -198,3 +198,59 @@ A layout is a UI that is shared between multiple pages in your app.
 
 <img width="500" height="500" alt="Image" src="https://github.com/user-attachments/assets/0367736d-c50d-41b3-8232-448ec69b1f14" />
 
+---
+
+**11.  Next.js 15 App Router – Routing & Navigation** 
+
+| API / Hook / Component    | Type                     | Purpose / Use Case                                               | Notes / Usage                                                                                         | Example                                                                      |
+| ------------------------- | ------------------------ | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `useRouter`               | Hook                     | Provides programmatic navigation and route management            | Must be used in **client components** (`'use client'`). Includes `push`, `replace`, `back`, `refresh` | `const router = useRouter(); router.push('/about')`                          |
+| `router.push(url)`        | Method (from useRouter)  | Navigate to a new page programmatically                          | Adds a new entry to the browser history                                                               | `router.push('/contact')`                                                    |
+| `router.replace(url)`     | Method (from useRouter)  | Navigate without adding a new entry to history                   | Useful for redirects without allowing back navigation                                                 | `router.replace('/login')`                                                   |
+| `router.back()`           | Method (from useRouter)  | Navigate back in browser history                                 | Equivalent to `window.history.back()`                                                                 | `router.back()`                                                              |
+| `router.refresh()`        | Method (from useRouter)  | Refresh the current route and re-fetch server components or data | Only available in **App Router**, useful to reload server-side data                                   | `router.refresh()`                                                           |
+| `usePathname()`           | Hook                     | Get the current URL pathname                                     | Read-only, lightweight; returns string of current path                                                | `const path = usePathname();`                                                |
+| `useSearchParams()`       | Hook                     | Access query/search parameters in the URL                        | Read-only, returns an instance of `URLSearchParams`                                                   | `const searchParams = useSearchParams(); const id = searchParams.get('id');` |
+| `useParams()`             | Hook                     | Access dynamic route parameters from `[param]` files             | Works in pages, layouts, and route handlers in App Router                                             | `const { id } = useParams();`                                                |
+| `Link` (`next/link`)      | Component                | Client-side navigation between pages                             | Can prefetch pages automatically; supports `replace` prop to act like `router.replace`                | `<Link href="/about">About</Link>`                                           |
+| `prefetch` (via Link)     | Optional feature         | Preload a page for faster navigation                             | By default, Next.js prefetches in viewport. Can be disabled by `prefetch={false}`                     | `<Link href="/blog" prefetch={false}>Blog</Link>`                            |
+| `useSearchParams().get()` | Method (URLSearchParams) | Get individual query parameters                                  | Works together with `useSearchParams`                                                                 | `searchParams.get('page')`                                                   |
+| `usePathname().split()`   | Utility                  | Split pathname for routing logic                                 | Helps handle nested routing dynamically                                                               | `const parts = usePathname().split('/')`                                     |
+| `router.prefetch(url)`    | Method (from useRouter)  | Programmatically prefetch a route                                | Useful for preloading before navigation                                                               | `router.prefetch('/about')`                                                  |
+
+
+**Additional Notes:**
+
+- Client vs Server Components
+
+useRouter, usePathname, useSearchParams, and router methods must be used inside client components.
+
+Example: Add 'use client'; at the top of the file.
+
+- Dynamic Routes
+
+For pages like /users/[id]/profile, you can access id using useParams().
+
+Example: const { id } = useParams(); → /users/123/profile → id = "123".
+
+- Refreshing Data
+
+router.refresh() is extremely useful when you want to re-fetch server-side props or layouts without a full page reload.
+
+- Prefetching
+
+Links prefetch by default only when in the viewport.
+
+Programmatic prefetch with router.prefetch('/path') is optional but can improve perceived performance.
+
+- Differences from Pages Router
+
+| Feature            | Pages Router (`next/router`) | App Router (`next/navigation`) |
+| ------------------ | ---------------------------- | ------------------------------ |
+| `useRouter`        | `'next/router'`              | `'next/navigation'`            |
+| `router.refresh()` | ❌ Not available              | ✅ Available                    |
+| `usePathname`      | ❌ Not available              | ✅ Available                    |
+| `useSearchParams`  | ❌ Not available              | ✅ Available                    |
+| `useParams`        | ❌ Not available              | ✅ Available                    |
+
+---
