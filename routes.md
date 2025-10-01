@@ -498,3 +498,84 @@ requests.
 
 Route handlers are not cached by default but you can opt into caching when using
 the GET method
+
+Caching only works with GET methods
+
+Other HTTP methods like POST, PUT or DELETE are never cached
+
+if we are using dynamic functions like headers() and cookies() or working with
+the request object in your GET method, caching won't be applied.
+
+---
+
+**23. Middleware**
+
+Middleware in Next.js is a powerful feature that lets you intercept and control the
+flow of requests and responses throughout your application.
+
+It does this at a global level, significantly enhancing features like redirects, URL rewrites,
+authentication, headers, cookies and more.
+
+Middleware lets you specify paths where it should be active
+
+- custom matcher config
+
+- conditional statements
+
+| Feature            | How It Works                                                 |
+| ------------------ | ------------------------------------------------------------ |
+| **Redirect**       | `NextResponse.redirect(new URL('/login', request.url))`      |
+| **Rewrite**        | `NextResponse.rewrite(new URL('/new', request.url))`         |
+| **Continue**       | `NextResponse.next()`                                        |
+| **Modify Headers** | `response.headers.set('x-hello', 'world')`                   |
+| **Cookies**        | `request.cookies.get('token')` / `response.cookies.set(...)` |
+
+
+middleware.ts = global or route-specific request interceptor.
+
+Use it for auth, redirects, rewrites, headers, cookies, logging.
+
+Defined at root (/middleware.ts) or per-folder.
+
+✅ 1**. File Placement**
+
+The file must be at the project root, not inside /app.
+
+/app
+/middleware.ts   ✅ correct
+/app/middleware.ts ❌ wrong
+
+✅ **2. Export Function Name**
+
+Must be named middleware (not handler, not anything else).
+
+```text
+export function middleware(request: NextRequest) {
+  return NextResponse.next();
+}
+```
+
+✅ **3. Correct Imports**
+
+Use next/server imports only:
+
+```text
+
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+```
+
+❌ Don’t import from next/navigation here — that’s for client components only.
+
+✅ **4. Matcher Configuration**
+
+If you don’t configure, middleware runs on every request.
+If you only want it for certain routes, export config:
+
+```text
+
+export const config = {
+  matcher: ['/dashboard/:path*', '/login'], // adjust as needed
+};
+```
+⚠️ Without this, it may not trigger where you expect.
