@@ -211,3 +211,124 @@ Improves performance & UX.
 Fully supported in Next.js App Router (v13–v15).
 
 ---
+
+**5. Rendering life cycle of server and client components**
+
+React server components (RSC)
+
+- your browser (the client)
+
+- Next.js (our framework)
+
+- React (our library)
+
+**1. Server Components (RSC) Lifecycle**
+
+Server Components run only on the server – they never ship JavaScript to the browser.
+
+**Lifecycle:**
+
+    Request comes in → Next.js calls the server.
+
+    Server Components execute:
+
+    Can fetch data (await fetch()) directly.
+
+    No React hooks like useState, useEffect (because they don’t run in the browser).
+
+    React renders them into a lightweight JSON format (RSC payload).
+
+    RSC payload is streamed to the client.
+
+    Client merges the payload into the HTML → user sees the rendered content.
+
+✅ Best for: data fetching, layout, static/dynamic server-rendered content.
+❌ Not for: interactivity (no click handlers, no local state).
+
+**2. Client Components Lifecycle**
+
+Client Components are hydrated in the browser. They ship JavaScript, and can use hooks (useState, useEffect, useRouter, etc.).
+
+**Lifecycle:**
+
+    HTML + RSC payload arrives from server.
+
+    Client Components are marked (using "use client").
+
+    Browser downloads their JS bundle.
+
+    Hydration phase:
+
+    React attaches event listeners.
+
+    Initializes state (useState).
+
+    Runs effects (useEffect).
+
+    After hydration → component becomes interactive.
+
+✅ Best for: buttons, forms, modals, animations, anything interactive.
+❌ Downside: Increases JS bundle size.
+
+
+**3. How They Work Together**
+
+Server Components generate data-heavy, static/dynamic UI.
+
+Client Components add interactivity on top.
+
+🔗 Example:
+
+```text
+// app/page.tsx
+import ServerPosts from './ServerPosts'; // Server Component
+import ClientLikeButton from './ClientLikeButton'; // Client Component
+
+export default function Page() {
+  return (
+    <div>
+      <ServerPosts /> {/* data fetched & rendered on server */}
+      <ClientLikeButton /> {/* hydrated on client */}
+    </div>
+  );
+}
+```
+
+**Flow:**
+
+Server renders ServerPosts → sends HTML.
+
+Client downloads & hydrates ClientLikeButton → now user can click.
+
+**4. Diagram (Lifecycle Flow)**
+
+```text
+🌍 Server Side
+---------------------
+User Request → Render Server Components → Fetch Data → Stream RSC Payload → HTML sent to client
+
+💻 Client Side
+---------------------
+Receive HTML + RSC Payload → Hydrate Client Components → Attach event listeners → Run effects → Page is interactive
+```
+
+**5. Key Differences**
+
+| Feature       | Server Component                     | Client Component          |
+| ------------- | ------------------------------------ | ------------------------- |
+| Runs on       | Server only                          | Browser (after hydration) |
+| Data fetching | ✅ (direct, secure)                   | ❌ (must use API calls)    |
+| Bundle size   | 0 KB shipped                         | Adds to JS bundle         |
+| Hooks         | Limited (no `useState`, `useEffect`) | Full React hooks          |
+| Interactivity | ❌                                    | ✅                         |
+| SEO           | Excellent (HTML ready)               | Depends on hydration      |
+
+✅ **Summary:**
+
+Server Components → cheap, fast, SEO-friendly.
+
+Client Components → interactive but heavier.
+
+Next.js lifecycle = render server parts first → stream → hydrate client parts → page interactive.
+
+---
