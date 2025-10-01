@@ -254,3 +254,45 @@ Programmatic prefetch with router.prefetch('/path') is optional but can improve 
 | `useParams`        | ❌ Not available              | ✅ Available                    |
 
 ---
+
+**12. Routing metadata**
+
+The Metadata API in Next.js a powerful feature that let us define metadata for each page
+
+Metadata ensures our content look great when its shared or indexed by search engines
+
+**Two way to handle metadata in layout.tsx or page.tsx files:**
+
+1. export a static metadata object
+
+2. export a dynamic generateMetadata function
+
+**Metadata Rules:**
+
+- Both layout.tsx and page.tsx can export metadata. Layout metadata applies to all
+its pages, while page metadata is specific to that page.
+
+- Metadata follows a top-down order, starting from the root level.
+
+- when Metadata exists in multiple places along a route, they merge together, with page metadata
+overriding layout metadata for matching properties.
+
+---
+
+13. Navigation
+
+```text
+import Link from "next/link";
+
+export default function Home() {
+  return (
+    <>
+      <h1>Welcome home!</h1>
+      <Link href="/blog">Blog</Link>
+      <Link href="/products">Products</Link>
+    </>
+  );
+}
+
+```
+---

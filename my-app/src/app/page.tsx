@@ -10,3 +10,5 @@ export default function Home({ params }: { params: { slug: string[] } }) {
 
   return <div>Valid page: {slug.join("/")}</div>;
 }
+
+
