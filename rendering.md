@@ -332,3 +332,130 @@ Client Components → interactive but heavier.
 Next.js lifecycle = render server parts first → stream → hydrate client parts → page interactive.
 
 ---
+
+**6. Static Rendering vs Dynamic Rendering**
+
+Static rendering is a server rendering strategy where we generate HTML pages
+when building our application 
+
+**🔹 1. Static Rendering**
+
+HTML is prebuilt ahead of time (at build or cache time).
+
+The same HTML is served to every user.
+
+Data is fetched once (cached) → result is reused.
+
+**Example:**
+
+```text
+// Static by default
+export default async function Page() {
+  const posts = await fetch("https://jsonplaceholder.typicode.com/posts"); 
+  // fetch is cached by default
+  const data = await posts.json();
+
+  return <div>{data[0].title}</div>;
+}
+```
+
+👉 Since fetch is cached, this page is static.
+
+✅ **Advantages:**
+
+Super fast ⚡ (served from CDN).
+
+Scales easily 🌍.
+
+Great SEO 🔍.
+
+❌ **Disadvantages:**
+
+Data may become stale (not real-time).
+
+Needs rebuild/revalidation to update.
+
+**🔹 2. Dynamic Rendering**
+
+HTML is generated for every request.
+
+Data is fetched freshly each time.
+
+The page adapts to who is visiting (e.g., user dashboard).
+
+**Example:**
+
+```text
+
+// Dynamic rendering
+export default async function Page() {
+  const posts = await fetch("https://jsonplaceholder.typicode.com/posts", {
+    cache: "no-store",   // disable cache
+  });
+  const data = await posts.json();
+
+  return <div>{data[0].title}</div>;
+}
+```
+
+👉 cache: "no-store" forces Next.js to fetch fresh data → dynamic page.
+
+✅ **Advantages:**
+
+Always fresh data ✅.
+
+Can show personalized content 👤.
+
+Good for dashboards, auth pages, etc.
+
+❌ **Disadvantages:**
+
+Slower than static (server must work each time).
+
+Harder to scale (needs compute).
+
+More expensive hosting 💰.
+
+**Key Differences**
+
+| Feature           | Static Rendering 🏗️       | Dynamic Rendering ⚡                  |
+| ----------------- | -------------------------- | ------------------------------------ |
+| Data fetching     | At build/cache time        | On every request                     |
+| Performance       | Super fast (CDN)           | Slower (server work each time)       |
+| Scalability       | Easy, cheap                | Harder, more costly                  |
+| Freshness         | May get stale              | Always fresh                         |
+| Personalization   | ❌ Same for everyone        | ✅ Per-user possible                  |
+| SEO               | ✅ Excellent                | ✅ Good (but slower first load)       |
+| Example use cases | Blogs, docs, landing pages | Dashboards, user profiles, live data |
+
+
+**🔹 3. Middle Ground → ISR (Incremental Static Regeneration)**
+
+Combines static + dynamic.
+
+Pages are built once, then automatically revalidated after a set time.
+
+Gives fast performance + fresh data.
+
+**Example:**
+
+```text
+export default async function Page() {
+  const posts = await fetch("https://jsonplaceholder.typicode.com/posts", {
+    next: { revalidate: 60 }, // re-generate every 60 seconds
+  });
+  const data = await posts.json();
+
+  return <div>{data[0].title}</div>;
+}
+```
+
+✅ **summary**
+
+Static Rendering = fast, cached, same for all.
+
+Dynamic Rendering = fresh, personalized, slower.
+
+ISR = best of both → static speed + periodic freshness.
+
+---
