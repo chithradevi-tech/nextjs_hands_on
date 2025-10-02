@@ -244,3 +244,28 @@ Sequential → One after another (slower, but needed when dependent).
 Parallel → At the same time (faster, best practice for independent requests).
 
 ---
+
+**Data Fetching summary**
+
+- Fetch data in client components
+
+- Fetch data in server components with async/await
+
+- Handling loading and error states with loading.tsx and error.tsx
+
+- Fetch data directly from a database
+
+- Server actions for mutations
+
+- Feedback with useFormStatus and useActionState hook
+
+- Separating server actions for use in client components
+
+- Pass additional data to perform update and delete operations
+
+- Perform optimistic updates
+
+- Form component
+
+---
+
