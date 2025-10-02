@@ -459,3 +459,250 @@ Dynamic Rendering = fresh, personalized, slower.
 ISR = best of both → static speed + periodic freshness.
 
 ---
+
+**7. generateStaticParams()**
+
+**🔹 What it does**
+
+In dynamic routes (like [id]/page.tsx), Next.js needs to know which params to pre-render at build time.
+
+generateStaticParams tells Next.js: “Here are the paths you should build as static HTML.”
+
+It’s the App Router version of getStaticPaths from the Pages Router.
+
+**Syntax**
+```text
+
+// app/blog/[id]/page.tsx
+
+export async function generateStaticParams() {
+  // return an array of objects
+  return [
+    { id: '1' },
+    { id: '2' },
+    { id: '3' },
+  ]
+}
+
+export default async function BlogPost({ params }: { params: { id: string } }) {
+  return <h1>Blog {params.id}</h1>
+}
+```
+👉 Next.js will pre-render /blog/1, /blog/2, /blog/3 at build time.
+
+**Real-world Example (fetching data)**
+
+```text
+// app/products/[id]/page.tsx
+
+// 1. Tell Next.js which product pages to build
+export async function generateStaticParams() {
+  const res = await fetch('https://fakestoreapi.com/products');
+  const products = await res.json();
+
+  return products.map((p: any) => ({
+    id: p.id.toString(),
+  }));
+}
+
+// 2. Render product page
+export default async function ProductPage({ params }: { params: { id: string } }) {
+  const res = await fetch(`https://fakestoreapi.com/products/${params.id}`);
+  const product = await res.json();
+
+  return (
+    <div>
+      <h1>{product.title}</h1>
+      <p>{product.description}</p>
+    </div>
+  );
+}
+```
+
+👉 Now /products/1, /products/2, etc. are statically pre-rendered.
+
+**🔹 Key Notes**
+
+generateStaticParams only works in dynamic routes ([param]).
+
+It runs at build time, not per request.
+
+If the param isn’t returned, that page will fallback to dynamic rendering (unless you configure otherwise).
+
+✅ **Summary**
+
+generateStaticParams = “which pages should I prebuild for dynamic routes?”
+
+Great for blogs, products, docs → where you know the list of IDs ahead of time.
+
+---
+
+**8. dynamicParams**
+
+**🔹 What is it?**
+
+dynamicParams is a route segment config option in the App Router.
+
+It tells Next.js whether new dynamic params (not returned by generateStaticParams) should be allowed at runtime.
+
+**Syntax**
+```text
+// app/blog/[id]/page.tsx
+
+export const dynamicParams = true; // default
+```
+
+🔹 **Values**
+1. dynamicParams: true ✅ (Default)
+
+If a user requests /blog/123 and 123 was not returned by generateStaticParams,
+→ Next.js will still render it dynamically at runtime.
+
+Good for content that changes often (e.g., new blog posts added).
+
+2. dynamicParams: false ❌
+
+If a user requests a path not in generateStaticParams,
+→ Next.js will return a 404 page.
+
+Good for content with a fixed list (e.g., docs, product catalog snapshot).
+
+**Example**
+```text
+
+// app/products/[id]/page.tsx
+
+// Pre-render only 3 products
+export async function generateStaticParams() {
+  return [{ id: '1' }, { id: '2' }, { id: '3' }];
+}
+
+// Config
+export const dynamicParams = false;
+
+export default function Product({ params }: { params: { id: string } }) {
+  return <h1>Product {params.id}</h1>;
+}
+```
+
+/products/1, /products/2, /products/3 → ✅ works (static).
+
+/products/4 → ❌ 404 (because dynamicParams = false).
+
+If you set dynamicParams = true, then /products/4 would render dynamically.
+
+**🔹 When to Use**
+
+dynamicParams: true → Content grows/change frequently (blogs, news, products).
+
+dynamicParams: false → Fixed set of pages (docs, landing pages, predefined catalogs).
+
+✅ **Summary**
+
+generateStaticParams → tells Next.js which pages to prebuild.
+
+dynamicParams → decides what happens when a non-prebuilt param is requested.
+
+true → fallback to dynamic rendering.
+
+false → 404.
+
+---
+
+**9. What is Streaming?**
+
+Normally, with SSR (Server-Side Rendering), the server waits until all data is ready → then sends the complete HTML to the browser.
+
+👉 Problem: slow API/database calls = slower page load.
+
+Streaming = the server can send chunks of UI to the browser as soon as they are ready, instead of waiting for everything.
+
+Browser shows partial UI immediately.
+
+Remaining parts “stream in” when ready.
+
+**🔹 Why is it useful?**
+
+Faster Time to First Byte (TTFB).
+
+User sees layout / header / skeleton instantly.
+
+Slow data (like product details, comments, AI responses) can load later.
+
+**🔹 Example 1: Basic Streaming with <Suspense>**
+
+```text
+// app/page.tsx
+import { Suspense } from "react";
+import Products from "./Products";
+import Reviews from "./Reviews";
+
+export default function Page() {
+  return (
+    <div>
+      <h1>Store</h1>
+      {/* Products load immediately */}
+      <Suspense fallback={<p>Loading products...</p>}>
+        <Products />
+      </Suspense>
+
+      {/* Reviews might be slower */}
+      <Suspense fallback={<p>Loading reviews...</p>}>
+        <Reviews />
+      </Suspense>
+    </div>
+  );
+}
+```
+👉 The page header + layout render immediately.
+👉 Products and Reviews are streamed in separately once their data is fetched.
+
+**🔹 Example 2: Streaming with Server Components**
+```text
+// app/Reviews.tsx
+export default async function Reviews() {
+  const res = await fetch("https://api.example.com/reviews", {
+    cache: "no-store",
+  });
+  const reviews = await res.json();
+
+  return (
+    <ul>
+      {reviews.map((r: any) => (
+        <li key={r.id}>{r.text}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+**🔹 Example 3: loading.tsx for route-level streaming**
+
+Next.js also provides special loading.tsx files inside route folders.
+
+```text
+// app/dashboard/loading.tsx
+export default function Loading() {
+  return <p>Loading dashboard...</p>;
+}
+```
+
+👉 This is shown immediately while app/dashboard/page.tsx streams in.
+
+🔹 **Real-World Uses**
+
+E-commerce → Show product info fast, stream reviews/recommendations later.
+
+Dashboards → Show layout & charts first, stream API-heavy reports.
+
+AI apps → Stream model responses word by word (like ChatGPT).
+
+🔹 **Summary**
+
+✅ Streaming = Send HTML in chunks, not all at once.
+
+✅ Improves perceived performance.
+
+✅ Implemented with <Suspense> + loading.tsx.
+
+✅ Great for slow data fetching.
