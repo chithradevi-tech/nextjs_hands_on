@@ -7,7 +7,7 @@ interfaces that users can see and interact with
 
 **2. Client side rendering (CSR)**
 
-🚨 **Drawbacks of CSR **
+🚨 **Drawbacks of CSR**
 
 - Slow First Load 🐢
 
