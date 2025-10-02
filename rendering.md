@@ -706,3 +706,122 @@ AI apps → Stream model responses word by word (like ChatGPT).
 ✅ Implemented with <Suspense> + loading.tsx.
 
 ✅ Great for slow data fetching.
+
+---
+
+npm install react-slick slick-carousel @types/react-slick
+
+npm install react-slick slick-carousel @types/react-slick --force
+
+---
+
+**10. Mixing Server and Client Components in Next.js**
+
+**1. Can you use a Client Component inside a Server Component?**
+
+✅ Yes (this is the most common pattern).
+
+Example:
+```text
+// app/page.tsx (Server Component by default)
+import Counter from "./Counter"; // Client Component
+
+export default function Page() {
+  return (
+    <div>
+      <h1>Server Component</h1>
+      <Counter /> {/* ✅ Allowed */}
+    </div>
+  );
+}
+```
+```text
+// app/Counter.tsx
+"use client"; // Marks this as Client Component
+import { useState } from "react";
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+  return (
+    <button onClick={() => setCount(count + 1)}>Count: {count}</button>
+  );
+}
+```
+
+👉 The Server Component renders the static HTML,
+👉 The Client Component hydrates on the client for interactivity.
+
+**2. Can you use a Server Component inside a Client Component?**
+
+❌ Not directly.
+
+Client Components run only in the browser, so they can’t import Server Components (which require the Node.js server environment).
+
+If you try:
+
+```text
+"use client";
+import ServerOnly from "./ServerOnly"; // ❌ not allowed
+
+export default function ClientComponent() {
+  return <ServerOnly />;
+}
+```
+**👉 You’ll get an error: “Server Component cannot be imported into a Client Component.”**
+
+**3. How to use Server Components "inside" Client Components?**
+
+✅ Use props or children.
+
+Option A: Pass data from Server → Client
+
+```text
+// app/page.tsx (Server)
+import Client from "./Client";
+
+export default async function Page() {
+  const res = await fetch("https://api.example.com/data");
+  const data = await res.json();
+
+  return <Client data={data} />; // ✅ pass as props
+}
+```
+```text
+// app/Client.tsx (Client)
+"use client";
+export default function Client({ data }: { data: any }) {
+  return <div>{JSON.stringify(data)}</div>;
+}
+```
+
+**Option B: Wrap Client around Server as children**
+
+```text
+// app/layout.tsx (Server)
+import ClientWrapper from "./ClientWrapper";
+
+export default function Layout({ children }) {
+  return <ClientWrapper>{children}</ClientWrapper>;
+}
+```
+```text
+// app/ClientWrapper.tsx
+"use client";
+export default function ClientWrapper({ children }) {
+  return <div className="border p-4">{children}</div>; // ✅ wrap Server content
+}
+```
+
+**Summary Table**
+
+| Case                 | Allowed?                | Why                                                           |
+| -------------------- | ----------------------- | ------------------------------------------------------------- |
+| Client inside Server | ✅ Yes                   | Server can render static shell, client hydrates interactivity |
+| Server inside Client | ❌ No                    | Client runs in browser, cannot access Node-only server logic  |
+| Workaround           | ✅ Pass props / children | Let Server fetch data, pass to Client                         |
+
+**Server → Client = Allowed (top-down)**
+
+**Client → Server = Not allowed (bottom-up)**
+
+---
