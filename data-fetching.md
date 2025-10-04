@@ -269,3 +269,72 @@ Parallel → At the same time (faster, best practice for independent requests).
 
 ---
 
+**🔹 What is Prisma?**
+
+Prisma is an ORM (Object-Relational Mapping) tool for Node.js/TypeScript.
+
+It lets you interact with your database using code instead of raw SQL queries.
+
+Works with PostgreSQL, MySQL, SQLite, SQL Server, MongoDB, etc.
+
+**Provides:**
+
+Type-safe database queries (TypeScript autocomplete and validation).
+
+Migration system (auto-generate database schema changes).
+
+Query simplification (CRUD operations with clean syntax).
+
+**Example with Prisma in Next.js:**
+
+```text
+// lib/prisma.ts
+import { PrismaClient } from "@prisma/client";
+
+export const prisma = new PrismaClient();
+
+// Using Prisma in an API route
+export async function getUsers() {
+  return await prisma.user.findMany();
+}
+```
+
+**🔹 Is Prisma mandatory for Next.js?**
+
+❌ No.
+
+Next.js itself does not require Prisma. You can use any method to connect to a database:
+
+| Option                                              | Pros                                                           | Cons                                     |
+| --------------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------- |
+| **Prisma**                                          | Type-safe, easy migrations, auto-complete, good for TypeScript | Extra dependency, learning curve         |
+| **Raw SQL (pg, mysql2, etc.)**                      | Lightweight, full control                                      | No type safety, more boilerplate         |
+| **ORM alternatives (TypeORM, Sequelize, MikroORM)** | Similar to Prisma, works in JS/TS                              | Can be complex, less modern DX           |
+| **NoSQL (MongoDB, Firebase, Supabase)**             | No schema enforcement, flexible                                | Less type safety if not combined with TS |
+
+
+**🔹 When to use Prisma in Next.js?**
+
+✅ You are using TypeScript (Prisma integrates beautifully).
+
+✅ You want type-safe queries and fewer runtime errors.
+
+✅ You have SQL databases and want easier migrations.
+
+✅ You are building a production app where database structure may change over time.
+
+**🔹 When not to use Prisma?**
+
+❌ Small project / prototype → raw SQL or a lightweight library is faster.
+
+❌ Using NoSQL like Firebase / Supabase → Prisma mainly targets SQL databases.
+
+❌ You want full control over queries → raw SQL might be simpler.
+
+- Next.js does NOT require Prisma.
+
+- Prisma is optional, used for cleaner, type-safe database access in TypeScript projects.
+
+- Ideal for production apps, large teams, and SQL databases.
+
+---
