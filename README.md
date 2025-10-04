@@ -146,7 +146,7 @@ Node.js 20.x (LTS)
 
 **8. Create a New Next.js Project**
 
-npx create-next-app@latest my-next-app
+npx create-next-app@latest 
 
 <img width="807" height="991" alt="Image" src="https://github.com/user-attachments/assets/f38beade-a627-4aa2-8144-ad1a7d29e186" />
 
@@ -154,7 +154,7 @@ npx create-next-app@latest my-next-app
 
 **9. Running Next.js project**
 
-cd my-next-app
+cd my-app
 
 npm run dev
 
