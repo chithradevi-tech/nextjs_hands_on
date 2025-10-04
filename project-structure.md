@@ -522,4 +522,5 @@ dependencies → used in production.
 devDependencies → used only in development.
 
 Don’t edit package-lock.json manually → always edit package.json instead.
+
 ---
