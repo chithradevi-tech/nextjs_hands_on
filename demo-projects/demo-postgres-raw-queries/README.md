@@ -117,3 +117,9 @@ moduleResolution: "node" ensures TypeScript finds modules from node_modules.
 After this, the error Cannot find module 'pg' should disappear.
 
 ---
+
+<img width="500" height="282" alt="Image" src="https://github.com/user-attachments/assets/87a589b8-ddeb-4897-8843-7514a6300a2b" />
+
+<img width="500" height="378" alt="Image" src="https://github.com/user-attachments/assets/24024e27-dcb1-402f-9e6c-c243fdccd475" />
+
+---
