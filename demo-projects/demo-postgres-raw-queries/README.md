@@ -50,8 +50,6 @@ Table: users
 ```text
 CREATE DATABASE demo_postgres_raw;
 
-\c demo_postgres_raw
-
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
@@ -117,3 +115,5 @@ Your tsconfig.json should have:
 moduleResolution: "node" ensures TypeScript finds modules from node_modules.
 
 After this, the error Cannot find module 'pg' should disappear.
+
+---

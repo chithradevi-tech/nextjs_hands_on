@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { User } from '@/models/user';
+import { User } from '@/models/users';
 import UserList from '@/components/UserList';
 
 export default function Home() {
